@@ -53,13 +53,14 @@ class VerifyUserView(APIView):
       'access': str(refresh.access_token),
       'user': UserSerializer(user).data
     })
+
 # define the home view
 class Home(APIView):
   def get(self, request):
     content = {'message': 'Welcome to tubeCollector!'}
     return Response(content)
 
-# routes for playlists
+# views for playlists
 class PlaylistList(generics.ListCreateAPIView):
   serializer_class = PlaylistSerializer
   permission_classes = [permissions.IsAuthenticated]
@@ -113,6 +114,13 @@ class TubeDetail(generics.RetrieveUpdateDestroyAPIView):
   queryset = Tube.objects.all()
   serializer_class = TubeSerializer
   lookup_field = 'id'
+
+# class TubeChangePosition(APIView):
+#   def patch(self, request, id, *args, **kwargs):
+#     tube = Tube.objects.get(id=id)
+#     tube.posX = kwargs['posX']
+#     tube.posY = kwargs['posY']
+#     return Response({'message': f'Tube: {tube.title} position is now: {tube.posX}, {tube.posY}'})
 
 class AddTubeToPlaylist(APIView):
   def post(self, request, plist_id, tube_id):

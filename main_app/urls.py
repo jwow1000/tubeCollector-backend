@@ -5,9 +5,11 @@ urlpatterns = [
   # home route
   path('', Home.as_view(), name='home'),
   
-  # get tube routes
+  # tube routes
   path('tubes/', TubeList.as_view(), name="tube-list"),
   path('tubes/<int:id>/', TubeDetail.as_view(), name="tube-detail"),
+  # path('tubes/<int:id>/change_pos', TubeChangePosition.as_view(), name="tube-change-pos"),
+
 
   # playlist routes
   path('playlists/', PlaylistList.as_view(), name="playlist-list"),
