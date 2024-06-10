@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,13 +26,13 @@ SECRET_KEY = 'django-insecure-e&ngsoy%(u&*liv$^^)2go1oaku8hpu011ncyvb1(4jxb%&tfw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Adjust the port if your frontend runs on a different one
+    "http://localhost:5173",  # Adjust the port if your frontend runs on a different one
 ]
-
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
@@ -50,12 +51,18 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+ROOT_URLCONF = 'tubecollector.urls'
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173',
 ]
 
 # Configuration for django-rest-framework-simplejwt
@@ -64,8 +71,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
-
-ROOT_URLCONF = 'tubecollector.urls'
 
 TEMPLATES = [
     {
@@ -93,7 +98,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'tubecollector',
-        # 'HOST': 'localhost',  <-- (optional) some computers might need this line
+        # 'USER': 'tubecollector_admin',
+        'PASSWORD': '123',
+        #'HOST': 'localhost',  #<-- (optional) some computers might need this line
         # 'USER': 'cat_admin', <-- (optional) postgres user name, if you have to sign into an account to open psql, you will want to add that user name here.
         # 'PASSWORD': 'password', <-- (optional) postgres user password, if you have to sign into an account to open psql, you will want to add that user password here.
         # 'PORT': 3000 <-- if you desire to use a port other than 8000, you can change that here to any valid port id, some number between 1 and 65535 that isn't in use by some other process on your machine. The reason for this port number range is because of how TCP/IP works, a TCP/IP protocol network(the most widely used protocol used on the web) allocated 16 bits for port numbers. This means that number must be greater than 0 and less than 2^15 -1. 
