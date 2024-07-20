@@ -27,8 +27,8 @@ class CreateUserView(generics.CreateAPIView):
 # User Login
 class LoginView(APIView):
   permission_classes = [permissions.AllowAny]
-
   def post(self, request):
+    print("check on request", request.data.get)
     username = request.data.get('username')
     password = request.data.get('password')
     user = authenticate(username=username, password=password)
