@@ -70,7 +70,7 @@ class PlaylistList(generics.ListCreateAPIView):
   permission_classes = [permissions.IsAuthenticated]
 
   def get_queryset(self):
-    # This ensures we only return cats belonging to the logged-in user
+    # This ensures we only return playlists belonging to the logged-in user
     user = self.request.user
     return Playlist.objects.filter(user=user)
   
