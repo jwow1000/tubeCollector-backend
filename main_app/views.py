@@ -65,7 +65,16 @@ class Home(APIView):
     content = {'message': 'Welcome to tubeCollector!'}
     return Response(content)
 
-# views for playlists
+######### views for playlists
+# make a new Playlist
+class PlaylistCreate(generics.CreateAPIView):
+    serializer_class = PlaylistSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+# get all playlists owned by user
 class PlaylistList(generics.ListCreateAPIView):
   serializer_class = PlaylistSerializer
   permission_classes = [permissions.IsAuthenticated]
@@ -78,6 +87,7 @@ class PlaylistList(generics.ListCreateAPIView):
   def perform_create(self, serializer):
     serializer.save(user=self.request.user)
 
+# get Playlist by Id with array of Tubes
 class PlaylistDetail(generics.RetrieveUpdateDestroyAPIView):
   serializer_class = PlaylistSerializer
   lookup_field = 'id'
