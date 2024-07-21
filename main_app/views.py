@@ -2,6 +2,7 @@ from rest_framework import generics, status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import (
   TokenObtainPairView,
@@ -80,6 +81,7 @@ class PlaylistList(generics.ListCreateAPIView):
 class PlaylistDetail(generics.RetrieveUpdateDestroyAPIView):
   serializer_class = PlaylistSerializer
   lookup_field = 'id'
+  permission_classes = [IsAuthenticated]
 
   def get_queryset(self):
     user = self.request.user
@@ -89,8 +91,8 @@ class PlaylistDetail(generics.RetrieveUpdateDestroyAPIView):
     instance = self.get_object()
     serializer = self.get_serializer(instance)
 
-    # toys_not_associated = Toy.objects.exclude(id__in=instance.toys.all())
-    tubes_serializer = TubeSerializer(many=True)
+    related_tubes = instance.tubes.all()
+    tubes_serializer = TubeSerializer(related_tubes, many=True)
 
     return Response({
         'playlist': serializer.data,
@@ -100,12 +102,12 @@ class PlaylistDetail(generics.RetrieveUpdateDestroyAPIView):
   def perform_update(self, serializer):
     plist = self.get_object()
     if plist.user != self.request.user:
-        raise PermissionDenied({"message": "You do not have permission to edit this cat."})
+        raise PermissionDenied({"message": "You do not have permission to edit this playlist."})
     serializer.save()
 
   def perform_destroy(self, instance):
     if instance.user != self.request.user:
-        raise PermissionDenied({"message": "You do not have permission to delete this cat."})
+        raise PermissionDenied({"message": "You do not have permission to delete this Playlist."})
     instance.delete()
 
 
