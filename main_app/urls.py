@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Home, TubeList, TubeDetail, PlaylistDetail, PlaylistList, AddTubeToPlaylist, RemoveTubeFromPlaylist, CreateUserView, LoginView, VerifyUserView, PlaylistCreate
+from .views import Home, TubeList, TubeDetail, PlaylistDetail, PlaylistList, AddTubeToPlaylist, RemoveTubeFromPlaylist, CreateUserView, LoginView, VerifyUserView, PlaylistCreate, TubeCreate
 
 urlpatterns = [
   # home route
@@ -16,7 +16,7 @@ urlpatterns = [
   path('playlists/<int:id>/', PlaylistDetail.as_view(), name="playlist-detail"),
   path('playlists/create/', PlaylistCreate.as_view(), name='playlist-create'),
 
-
+  path('tubes/new_tube/', TubeCreate.as_view(), name="create-new-tube"),
   path('playlists/<int:plist_id>/add_tube/<int:tube_id>/', AddTubeToPlaylist.as_view(), name='add-tube-to-playlist'),
   path('playlists/<int:plist_id>/remove_tube/<int:tube_id>/', RemoveTubeFromPlaylist.as_view(), name='remove-tube-from-playlist'),
 

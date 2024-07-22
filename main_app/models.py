@@ -18,6 +18,11 @@ class Tube(models.Model):
   url = models.CharField(max_length=250)
   posX = models.FloatField(default=0.5)
   posY = models.FloatField(default=0.5)
+  user = models.ForeignKey(
+    User, 
+    on_delete=models.CASCADE,
+    null=True,
+  )
   
   def __str__(self):
     return self.title 

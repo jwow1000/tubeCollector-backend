@@ -121,7 +121,15 @@ class PlaylistDetail(generics.RetrieveUpdateDestroyAPIView):
     instance.delete()
 
 
-# basic routes for the tubes
+##### basic routes for the tubes
+# make a new Tube
+class TubeCreate(generics.CreateAPIView):
+    serializer_class = TubeSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 class TubeList(generics.ListCreateAPIView):
   queryset = Tube.objects.all
   serializer_class = TubeSerializer
