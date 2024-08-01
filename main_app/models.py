@@ -33,8 +33,8 @@ class Playlist(models.Model):
   tubes = models.ManyToManyField(Tube) 
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   # colabs = models.ManyToManyField(User)
-  posX = models.FloatField(default=0.5)
-  posY = models.FloatField(default=0.5)
+  # posX = models.FloatField(default=0.5)
+  # posY = models.FloatField(default=0.5)
   
   def __str__(self):
     return self.title 
